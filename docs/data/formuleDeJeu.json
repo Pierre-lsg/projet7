@@ -1,0 +1,22 @@
+[
+    {
+    "id": "1",
+    "nom": "scramble",
+    "description": "Chaque joueur joue sa balle. L'équipe choisit la meilleure balle et repart de celle-ci. \r\nOn compte le nombre de coup de la meilleure position jusqu'à atteindre la cible."
+},
+{
+    "id": "2",
+    "nom": "individuel",
+    "description": "Chaque joueur joue sa balle.\r\nLe score correspond au nombre de coup jusqu'à la cible pour chaque joueur."
+},
+{
+    "id": "3",
+    "nom": "greensome",
+    "description": "Au départ, chaque joueur joue sa balle. Il choisit une balle qui sera jouée alternativement jusqu'à la cible."
+},
+{
+    "id": "4",
+    "nom": "bonus",
+    "description": "Règle spéciale. Trois essais, moins un par coup réussi."
+}
+]
