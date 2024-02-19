@@ -1,10 +1,19 @@
-Championnat 
+Championnat :
+- nom 
+- description
 - saison
 - compétition(s)
 - classement(s)
-- modalité de calcul
-// Tout joueur engagé dans une compétition d'un championnat l'est pour tout le championnat 
-- club/équipe/joueur
+- règlement championnat
+// Seuls les clubs et joueurs identifiés pour un championnat sont identifiés dans le classement du championnat 
+- club/joueur
+
+Règlement Championnat :
+- mode de calcul (FFSG2024)
+- mode de répartition des points (meilleure place, répartition)
+- nombre de compétition (suivant mode de calcul, pour 2024, toutes les étapes comptes)
+- points marqués par classement équipe
+
 
 Compétition
 - nom

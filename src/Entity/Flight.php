@@ -27,6 +27,10 @@ class Flight
     #[ORM\OneToOne(mappedBy: 'flight', cascade: ['persist', 'remove'])]
     private ?CarteDeScores $carteDeScores = null;
 
+    #[ORM\ManyToOne(inversedBy: 'flights')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Competition $competition = null;
+
     public function __construct()
     {
         $this->equipes = new ArrayCollection();
@@ -104,6 +108,18 @@ class Flight
         }
 
         $this->carteDeScores = $carteDeScores;
+
+        return $this;
+    }
+
+    public function getCompetition(): ?Competition
+    {
+        return $this->competition;
+    }
+
+    public function setCompetition(?Competition $competition): static
+    {
+        $this->competition = $competition;
 
         return $this;
     }

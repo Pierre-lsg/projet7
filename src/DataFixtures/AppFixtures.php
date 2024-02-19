@@ -3,8 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\FormuleDeJeu;
+use App\Entity\ModeCalculChampionnat;
 use App\Entity\ModeCompetition;
 use App\Entity\RegleCroix;
+use App\Entity\RepartitionPoints;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -16,6 +18,8 @@ class AppFixtures extends Fixture
         $this->loadFormuleDeJeu($manager);
         $this->loadModeCompetition($manager);
         $this->loadRegleCroix($manager);
+        $this->loadModeCalcul($manager);
+        $this->loadRepartitionPoints($manager);
         
     }
 
@@ -66,6 +70,40 @@ class AppFixtures extends Fixture
                 ->setValeurCroix($uneRG['valeurCroix'])            
             ;
             $manager->persist($regleCroix);
+        }
+
+        $manager->flush();
+    }
+
+    // Chargement des modes de calcul
+    private function loadModeCalcul(ObjectManager $manager): void
+    {
+        $listeModeCalcul = json_decode(file_get_contents("docs/data/modeCalcul.json"),true);
+
+        foreach ($listeModeCalcul as $unMC) {
+            $modeCalcul = new ModeCalculChampionnat();
+            $modeCalcul
+                ->setNom($unMC['nom'])
+                ->setDescription($unMC['description'])
+            ;
+            $manager->persist($modeCalcul);
+        }
+
+        $manager->flush();
+    }
+
+    // Chargement des règles de répartition des points
+    private function loadRepartitionPoints(ObjectManager $manager): void
+    {
+        $listeRepartitionPoints = json_decode(file_get_contents("docs/data/repartitionPoints.json"),true);
+
+        foreach ($listeRepartitionPoints as $uneRP) {
+            $repartitionPoints = new RepartitionPoints();
+            $repartitionPoints
+                ->setNom($uneRP['nom'])
+                ->setDescription($uneRP['description'])
+            ;
+            $manager->persist($repartitionPoints);
         }
 
         $manager->flush();

@@ -1,0 +1,12 @@
+[
+    {
+        "id": "1",
+        "nom": "meilleure place",
+        "description": "Si deux équipes ou plus arrivent à la même place lors d'une compétition, les points gagnés sont ceux de la meilleure place."
+    },
+    {
+        "id": "2",
+        "nom": "répartition",
+        "description": "Si deux équipes ou plus arrivent à la même place lors d'une compétition, les points gagnés correspondent à la somme des places divisées par le nombre d'équipe \n\r Si deux équipe finissent troisième, elles récupèrent la moitié des points de la troisième et quatrième place, arrondi au point supérieur."
+    }
+]

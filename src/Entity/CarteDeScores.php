@@ -25,6 +25,10 @@ class CarteDeScores
     #[ORM\Column]
     private ?bool $estSignee = null;
 
+    #[ORM\ManyToOne(inversedBy: 'cartesDeScores')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Competition $competition = null;
+
     public function __construct()
     {
         $this->scores = new ArrayCollection();
@@ -85,6 +89,18 @@ class CarteDeScores
     public function setEstSignee(bool $estSignee): static
     {
         $this->estSignee = $estSignee;
+
+        return $this;
+    }
+
+    public function getCompetition(): ?Competition
+    {
+        return $this->competition;
+    }
+
+    public function setCompetition(?Competition $competition): static
+    {
+        $this->competition = $competition;
 
         return $this;
     }

@@ -25,9 +25,13 @@ class Parcours
     #[ORM\ManyToMany(targetEntity: CibleDeParcours::class, inversedBy: 'parcours')]
     private Collection $cibles;
 
+    #[ORM\OneToMany(mappedBy: 'parcours', targetEntity: Competition::class)]
+    private Collection $competitions;
+
     public function __construct()
     {
         $this->cibles = new ArrayCollection();
+        $this->competitions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,6 +83,36 @@ class Parcours
     public function removeCible(CibleDeParcours $cible): static
     {
         $this->cibles->removeElement($cible);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Competition>
+     */
+    public function getCompetitions(): Collection
+    {
+        return $this->competitions;
+    }
+
+    public function addCompetition(Competition $competition): static
+    {
+        if (!$this->competitions->contains($competition)) {
+            $this->competitions->add($competition);
+            $competition->setParcours($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompetition(Competition $competition): static
+    {
+        if ($this->competitions->removeElement($competition)) {
+            // set the owning side to null (unless already changed)
+            if ($competition->getParcours() === $this) {
+                $competition->setParcours(null);
+            }
+        }
 
         return $this;
     }
