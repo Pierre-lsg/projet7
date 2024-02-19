@@ -1,0 +1,12 @@
+[
+    {
+    "id": "1",
+    "nom": "individuel",
+    "description": "Compétition individuelle."
+},
+{
+    "id": "2",
+    "nom": "par équipe",
+    "description": "Compétition par équipe"
+}
+]

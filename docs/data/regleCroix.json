@@ -1,0 +1,20 @@
+[
+    {
+        "id": "1",
+        "nom": "par + 4",
+        "description": "La Croix vaut le par + 4 coups. La valeur de Croix est cumulée au par",
+        "valeurCroix": 4
+    },
+    {
+        "id": "2",
+        "nom": "par + 5",
+        "description": "La Croix vaut le par + 5 coups. La valeur de Croix est cumulée au par",
+        "valeurCroix": 5
+    },
+    {
+        "id": "3",
+        "nom": "Toujours 10",
+        "description": "La Croix vaut 10",
+        "valeurCroix": 10
+    }
+]

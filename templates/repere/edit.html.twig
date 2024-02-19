@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Repere{% endblock %}
+
+{% block body %}
+    <h1>Edit Repere</h1>
+
+    {{ include('repere/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_repere_index') }}">back to list</a>
+
+    {{ include('repere/_delete_form.html.twig') }}
+{% endblock %}

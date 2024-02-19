@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Repere{% endblock %}
+
+{% block body %}
+    <h1>Repere</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ repere.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ repere.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ repere.description }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ repere.latitude }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ repere.longitude }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_repere_index') }}">back to list</a>
+
+    <a href="{{ path('app_repere_edit', {'id': repere.id}) }}">edit</a>
+
+    {{ include('repere/_delete_form.html.twig') }}
+{% endblock %}

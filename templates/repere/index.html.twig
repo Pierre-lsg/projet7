@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Repere index{% endblock %}
+
+{% block body %}
+    <h1>Repere index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for repere in reperes %}
+            <tr>
+                <td>{{ repere.id }}</td>
+                <td>{{ repere.nom }}</td>
+                <td>{{ repere.description }}</td>
+                <td>{{ repere.latitude }}</td>
+                <td>{{ repere.longitude }}</td>
+                <td>
+                    <a href="{{ path('app_repere_show', {'id': repere.id}) }}">show</a>
+                    <a href="{{ path('app_repere_edit', {'id': repere.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_repere_new') }}">Create new</a>
+{% endblock %}

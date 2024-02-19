@@ -3,18 +3,54 @@ Championnat
 - compétition(s)
 - classement(s)
 - modalité de calcul
+// Tout joueur engagé dans une compétition d'un championnat l'est pour tout le championnat 
+- club/équipe/joueur
 
 Compétition
+- nom
+- description
 - parcours
 - flight(s)
-- Carte de score
-- résultat(s) ... joueurs, équipes
+- règlement de la compétition
+- Carte(s) de score
+
+Carte de scores :
+// Pour un trou en équipe fdj autre que individuel ou bonus, le score du joueur est celui de l'équipe sur le trou
+// S'il manque un joueur dans l'équipe, le score du joueur est automatiquement la croix (par + n ou valeur fixe) pour les trous individuels et 0 pour les trous bonus
+// Si une équipe ne réalise pas tous les trous du parcours, le score calculé est le plus défavorable par trou manquant (X ou 0 si bonus)
+// Flight et carte de score sont définis simultanément
+- Score(s)
+- signature
+
+Score :
+- cibleDeParcours 
+- joueur 
+- équipe
+- score
+
+ReglementCompétition :
+- date de compétition
+- date de publication des résultats
+- Lieu d'accueil
+- mode de compétition (individuel, par équipe)
+- nombre de joueurs par équipe
+- nombre d'équipe par Flight
+- règle valeur de la croix
 
 Flight :
+- ordre
+- nom
 - équipe(s)
 
-Equipe :
+// si compétition individuelle - le nom de l'équipe est automatiquement le nom du joueur 
+Equipe : 
+- nom
 - joueur(s)
+
+Joueur :
+- prénom
+- nom 
+- pseudo
 
 Club :
 Groupement de joueurs
@@ -32,9 +68,9 @@ CibleDeParcours
 - formuleDeJeu
 
 Cible (*ou Trou en golf traditionnel*)
-- formule de jeu
-- par
-- départ, arrivée, hors limite, autres règles ... à venir
+- départ, 
+- arrivée, 
+- hors limite, autres règles ... à venir
 
 Repere
 - nom
