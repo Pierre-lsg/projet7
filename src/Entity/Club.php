@@ -28,10 +28,18 @@ class Club
     #[ORM\OneToMany(mappedBy: 'club', targetEntity: Equipe::class, orphanRemoval: true)]
     private Collection $equipes;
 
+    #[ORM\ManyToMany(targetEntity: Championnat::class, mappedBy: 'clubsChampionnat')]
+    private Collection $championnats;
+
+    #[ORM\OneToMany(mappedBy: 'club', targetEntity: ClassementClub::class)]
+    private Collection $classementClubs;
+
     public function __construct()
     {
         $this->joueurs = new ArrayCollection();
         $this->equipes = new ArrayCollection();
+        $this->championnats = new ArrayCollection();
+        $this->classementClubs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,6 +125,63 @@ class Club
             // set the owning side to null (unless already changed)
             if ($equipe->getClub() === $this) {
                 $equipe->setClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Championnat>
+     */
+    public function getChampionnats(): Collection
+    {
+        return $this->championnats;
+    }
+
+    public function addChampionnat(Championnat $championnat): static
+    {
+        if (!$this->championnats->contains($championnat)) {
+            $this->championnats->add($championnat);
+            $championnat->addClubsChampionnat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChampionnat(Championnat $championnat): static
+    {
+        if ($this->championnats->removeElement($championnat)) {
+            $championnat->removeClubsChampionnat($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ClassementClub>
+     */
+    public function getClassementClubs(): Collection
+    {
+        return $this->classementClubs;
+    }
+
+    public function addClassementClub(ClassementClub $classementClub): static
+    {
+        if (!$this->classementClubs->contains($classementClub)) {
+            $this->classementClubs->add($classementClub);
+            $classementClub->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClassementClub(ClassementClub $classementClub): static
+    {
+        if ($this->classementClubs->removeElement($classementClub)) {
+            // set the owning side to null (unless already changed)
+            if ($classementClub->getClub() === $this) {
+                $classementClub->setClub(null);
             }
         }
 

@@ -8,6 +8,16 @@ Championnat :
 // Seuls les clubs et joueurs identifiés pour un championnat sont identifiés dans le classement du championnat 
 - club/joueur
 
+Classement Club :
+- Championnat
+- Club
+- nombre de points
+
+Classement Joueur :
+- Championnat
+- joueur
+- nombre de points
+
 Règlement Championnat :
 - mode de calcul (FFSG2024)
 - mode de répartition des points (meilleure place, répartition)

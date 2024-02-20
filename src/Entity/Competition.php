@@ -36,6 +36,10 @@ class Competition
     #[ORM\OneToMany(mappedBy: 'competition', targetEntity: CarteDeScores::class, orphanRemoval: true)]
     private Collection $cartesDeScores;
 
+    #[ORM\ManyToOne(inversedBy: 'competitions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Championnat $championnat = null;
+
     public function __construct()
     {
         $this->flights = new ArrayCollection();
@@ -151,6 +155,18 @@ class Competition
                 $cartesDeScore->setCompetition(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getChampionnat(): ?Championnat
+    {
+        return $this->championnat;
+    }
+
+    public function setChampionnat(?Championnat $championnat): static
+    {
+        $this->championnat = $championnat;
 
         return $this;
     }
