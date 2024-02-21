@@ -3,20 +3,30 @@
 namespace App\DataFixtures;
 
 use App\Entity\Championnat;
+use App\Entity\Cible;
+use App\Entity\CibleDeParcours;
 use App\Entity\Club;
+use App\Entity\Competition;
 use App\Entity\FormuleDeJeu;
 use App\Entity\Joueur;
 use App\Entity\ModeCalculChampionnat;
 use App\Entity\ModeCompetition;
+use App\Entity\Parcours;
 use App\Entity\PointsClassementEquipe;
 use App\Entity\RegleCroix;
 use App\Entity\ReglementChampionnat;
+use App\Entity\ReglementCompetition;
 use App\Entity\RepartitionPoints;
+use App\Entity\Repere;
 use App\Repository\ChampionnatRepository;
 use App\Repository\ClubRepository;
+use App\Repository\FormuleDeJeuRepository;
 use App\Repository\JoueurRepository;
 use App\Repository\ModeCalculChampionnatRepository;
+use App\Repository\ModeCompetitionRepository;
+use App\Repository\RegleCroixRepository;
 use App\Repository\RepartitionPointsRepository;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -28,12 +38,18 @@ class AppFixtures extends Fixture
     private ClubRepository $clRepo;
     private ChampionnatRepository $chRepo;
     private JoueurRepository $jRepo;
+    private RegleCroixRepository $rcRepo;
+    private ModeCompetitionRepository $mcRepo;
+    private FormuleDeJeuRepository $fdjRepo;
 
     public function __construct(RepartitionPointsRepository $rpRepo,
                                 ModeCalculChampionnatRepository $mccrRepo,
                                 ClubRepository $clRepo,
                                 ChampionnatRepository $chRepo,
-                                JoueurRepository $jRepo
+                                JoueurRepository $jRepo,
+                                RegleCroixRepository $rcRepo,
+                                ModeCompetitionRepository $mcRepo,
+                                FormuleDeJeuRepository $fdjRepo
     )
     {
         $this->rpRepo = $rpRepo;
@@ -41,6 +57,9 @@ class AppFixtures extends Fixture
         $this->clRepo = $clRepo;
         $this->chRepo = $chRepo;
         $this->jRepo = $jRepo;
+        $this->rcRepo = $rcRepo;
+        $this->mcRepo = $mcRepo;
+        $this->fdjRepo = $fdjRepo;
     }
 
     public function load(ObjectManager $manager): void
@@ -87,9 +106,11 @@ class AppFixtures extends Fixture
                 ->setReglementChampionnat($reglementChampionnat)
             ;
             $manager->persist($championnat);
-        }
+            $manager->flush();
 
-        $manager->flush();
+            // Création des compétitions
+            $this->createCompetition($manager, $championnat);
+        }
     }
 
     // Création du règlement du championnat
@@ -114,6 +135,146 @@ class AppFixtures extends Fixture
         $manager->flush();
 
         return $reglementChampionnat;
+    }
+
+    // Création de compétitions 
+    private function createCompetition(ObjectManager $manager, Championnat $championnat): void
+    {
+        $faker = Factory::create('fr_FR');
+
+        for ($i=0; $i < 4; $i++) { 
+            // Création du règlement de la compétition
+            $reglementCompetition = $this->createReglementCompetition($manager, $championnat->getSaison());
+
+            // Création du parcours de la compétition
+            $parcours = $this->createParcours($manager, $reglementCompetition->getAccueil());
+
+            // Création de la compétition
+            $competition = new Competition();
+            $competition
+                ->setNom($faker->city().' Competition')
+                ->setDescription($faker->paragraph())
+                ->setReglement($reglementCompetition)
+                ->setParcours($parcours)
+                ->setChampionnat($championnat)
+            ;
+
+            $manager->persist($competition);
+            $manager->flush();            
+        }
+    }
+
+    // Création du parcours de la compétition
+    private function createParcours(ObjectManager $manager, Repere $accueil): ?Parcours
+    {
+        $faker = Factory::create('fr_FR');
+
+        $parcours = new Parcours();
+        $parcours
+            ->setNom($faker->company())
+            ->setDescription($faker->paragraph())
+        ;
+
+        $manager->persist($parcours);
+        $manager->flush();            
+
+        // Création des cibles
+        $this->createCible($manager, $parcours, $accueil);
+
+        return $parcours;
+    }
+
+    // Création des cibles pour le parcours
+    private function createCible(ObjectManager $manager, Parcours $parcours, Repere $accueil): void
+    {
+        $faker = Factory::create('fr_FR');
+
+        $fdj[] = new FormuleDeJeu;
+        $fdj = $this->fdjRepo->findAll();
+
+
+        // Création des cibles 
+        for ($i=0; $i < 10; $i++) { 
+            $cible = new Cible();
+
+            $depart = new Repere();
+            $depart
+                ->setNom('D'.$i+1)
+                ->setDescription('...')
+                ->setLatitude(strval(floatval(substr($accueil->getLatitude(), 0, 5)) + (random_int(-1000, 1000)/100000)))
+                ->setLongitude(strval(floatval(substr($accueil->getLongitude(), 0, 4)) + (random_int(-1000, 1000)/100000)))
+            ;
+            $manager->persist($depart);
+
+            $arrivee = new Repere();
+            $arrivee
+                ->setNom('A'.$i+1)
+                ->setDescription('...')
+                ->setLatitude(substr($depart->getLatitude(), 0, 5) . $faker->numberBetween(0, 999))
+                ->setLongitude(substr($depart->getLongitude(), 0, 4) . $faker->numberBetween(0, 999))
+            ;
+            $manager->persist($arrivee);
+
+            $cible
+                ->setDepart($depart)
+                ->setArrivee($arrivee)
+            ;
+            $manager->persist($cible);
+
+            // Et des cibles de parcours
+            $cibleParcours = new CibleDeParcours();
+            $cibleParcours
+                ->setOrdre($i)
+                ->setCible($cible)
+                ->setFormuleDeJeu($fdj[random_int(0,3)])
+                ->addParcours($parcours)
+            ;
+            $manager->persist($cibleParcours);
+
+        }
+        $manager->flush();
+    }
+
+    // Création du règlement de la compétition
+    private function createReglementCompetition(ObjectManager $manager, string $annee): ?ReglementCompetition
+    {
+        $faker = Factory::create('fr_FR');
+
+        $regleCroix = new RegleCroix();
+        $regleCroix = $this->rcRepo->findAll()[0]; 
+
+        $modeCompetition = new ModeCompetition();
+        $modeCompetition = $this->mcRepo->findAll()[1]; 
+
+        $accueil = new Repere();
+        $accueil
+            ->setNom($faker->company())
+            ->setDescription($faker->paragraph())
+            ->setLatitude($faker->latitude($min=44, $max=50))
+            ->setLongitude($faker->longitude($min=0, $max=8))
+        ;
+        $manager->persist($accueil);
+
+        $dateJour = random_int(10,27);
+        $dateMois = random_int(1,9);
+        $dateCompetition = new DateTimeImmutable($annee.'-0'.$dateMois.'-'. $dateJour);
+        $datePublication = new DateTimeImmutable($annee.'-0'.$dateMois.'-'. $dateJour + 1);
+
+        $reglementCompetition = new ReglementCompetition();
+        $reglementCompetition
+            ->setDateCompetition($dateCompetition)
+            ->setDatePublicationResultat($datePublication)
+            ->setAccueil($accueil)
+            ->setNombreEquipeParFlight(3)
+            ->setNombreJoueurParEquipe(2)
+            ->setModeCompetition($modeCompetition)
+            ->setRegleCroix($regleCroix)
+        ;
+
+        $manager->persist($reglementCompetition);
+        $manager->flush();
+
+        return $reglementCompetition;
     }
 
     // Création de clubs 

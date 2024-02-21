@@ -87,7 +87,7 @@ class CibleDeParcours
         return $this->parcours;
     }
 
-    public function addParcour(Parcours $parcour): static
+    public function addParcours(Parcours $parcour): static
     {
         if (!$this->parcours->contains($parcour)) {
             $this->parcours->add($parcour);
@@ -97,7 +97,7 @@ class CibleDeParcours
         return $this;
     }
 
-    public function removeParcour(Parcours $parcour): static
+    public function removeParcours(Parcours $parcour): static
     {
         if ($this->parcours->removeElement($parcour)) {
             $parcour->removeCible($this);
