@@ -62,6 +62,7 @@ Flight :
 - équipe(s)
 
 // si compétition individuelle - le nom de l'équipe est automatiquement le nom du joueur 
+// Une équipe est formée pour une compétition
 Equipe : 
 - nom
 - joueur(s)

@@ -8,14 +8,16 @@ use App\Entity\FormuleDeJeu;
 use App\Entity\Joueur;
 use App\Entity\ModeCalculChampionnat;
 use App\Entity\ModeCompetition;
+use App\Entity\PointsClassementEquipe;
 use App\Entity\RegleCroix;
 use App\Entity\ReglementChampionnat;
 use App\Entity\RepartitionPoints;
+use App\Repository\ChampionnatRepository;
+use App\Repository\ClubRepository;
+use App\Repository\JoueurRepository;
 use App\Repository\ModeCalculChampionnatRepository;
 use App\Repository\RepartitionPointsRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
@@ -23,13 +25,22 @@ class AppFixtures extends Fixture
 {
     private RepartitionPointsRepository $rpRepo;
     private ModeCalculChampionnatRepository $mccrRepo;
+    private ClubRepository $clRepo;
+    private ChampionnatRepository $chRepo;
+    private JoueurRepository $jRepo;
 
     public function __construct(RepartitionPointsRepository $rpRepo,
-                                ModeCalculChampionnatRepository $mccrRepo
+                                ModeCalculChampionnatRepository $mccrRepo,
+                                ClubRepository $clRepo,
+                                ChampionnatRepository $chRepo,
+                                JoueurRepository $jRepo
     )
     {
         $this->rpRepo = $rpRepo;
         $this->mccrRepo = $mccrRepo;
+        $this->clRepo = $clRepo;
+        $this->chRepo = $chRepo;
+        $this->jRepo = $jRepo;
     }
 
     public function load(ObjectManager $manager): void
@@ -45,7 +56,15 @@ class AppFixtures extends Fixture
         $this->createClub($manager);
         $this->createChampionnat($manager);
 
+        // Création des liens
+        $this->linkClubChampionnat($manager);
+        $this->linkJoueurChampionnat($manager);
+
     }
+
+    //--------------------------------------//
+    //         Création des entités         //
+    //--------------------------------------//
 
     // Création du championnat
     private function createChampionnat(ObjectManager $manager): void
@@ -55,6 +74,9 @@ class AppFixtures extends Fixture
         for ($i=0; $i < 3; $i++) { 
             // Création du règlement
             $reglementChampionnat = $this->createReglementChampionnat($manager);
+
+            // Création du comptage des points par équipe
+            $this->loadPointsClassementEquipe($manager, $reglementChampionnat);
             
             // Création du Championnat
             $championnat = new Championnat();
@@ -133,6 +155,10 @@ class AppFixtures extends Fixture
 
         $manager->flush();
     }
+
+    //--------------------------------------//
+    // Chargement des données de paramètres //
+    //--------------------------------------//
 
     // Chargement des formules de jeu
     private function loadFormuleDeJeu(ObjectManager $manager): void
@@ -217,6 +243,63 @@ class AppFixtures extends Fixture
             $manager->persist($repartitionPoints);
         }
 
+        $manager->flush();
+    }
+
+    // Chargement des règles de répartition des points
+    private function loadPointsClassementEquipe(ObjectManager $manager, ReglementChampionnat $reglementChampionnat): void
+    {
+        $listePointsClassementEquipe = json_decode(file_get_contents("docs/data/pointsClassementEquipe.json"),true);
+
+        foreach ($listePointsClassementEquipe as $unPce) {
+            $pointsClassementEquipe = new PointsClassementEquipe();
+            $pointsClassementEquipe
+                ->setClassement($unPce['classement'])
+                ->setPoints($unPce['points'])
+                ->setReglementChampionnat($reglementChampionnat)            
+            ;
+            $manager->persist($pointsClassementEquipe);
+        }
+        $manager->flush();
+    }
+
+    //--------------------------------------//
+    // Création des liens entre entités     //
+    //--------------------------------------//
+
+    // Création des liens entre les clubs et le championnat
+    private function linkClubChampionnat(ObjectManager $manager): void
+    {
+        $ch[] = new Championnat();
+        $ch = $this->chRepo->findAll();
+
+        $cl[] = new Club();
+        $cl = $this->clRepo->findAll();
+
+        foreach ($ch as $unCh) {
+            foreach ($cl as $unCl) {
+                $unCh->addClubsChampionnat($unCl);
+            }
+            $manager->persist($unCh);
+        }
+        $manager->flush();
+    }
+
+    // Création des liens entre les joueurs et le championnat
+    private function linkJoueurChampionnat(ObjectManager $manager): void
+    {
+        $ch[] = new Championnat();
+        $ch = $this->chRepo->findAll();
+
+        $jo[] = new Joueur();
+        $jo = $this->jRepo->findAll();
+
+        foreach ($ch as $unCh) {
+            foreach ($jo as $unJoueur) {
+                $unCh->addJoueursChampionnat($unJoueur);
+            }
+            $manager->persist($unCh);
+        }
         $manager->flush();
     }
 }

@@ -28,6 +28,10 @@ class Equipe
     #[ORM\ManyToOne(inversedBy: 'equipes')]
     private ?Flight $flight = null;
 
+    #[ORM\ManyToOne(inversedBy: 'equipes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Competition $competition = null;
+
     public function __construct()
     {
         $this->joueurs = new ArrayCollection();
@@ -100,6 +104,18 @@ class Equipe
     public function setFlight(?Flight $flight): static
     {
         $this->flight = $flight;
+
+        return $this;
+    }
+
+    public function getCompetition(): ?Competition
+    {
+        return $this->competition;
+    }
+
+    public function setCompetition(?Competition $competition): static
+    {
+        $this->competition = $competition;
 
         return $this;
     }

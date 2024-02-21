@@ -40,10 +40,14 @@ class Competition
     #[ORM\JoinColumn(nullable: false)]
     private ?Championnat $championnat = null;
 
+    #[ORM\OneToMany(mappedBy: 'competition', targetEntity: Equipe::class, orphanRemoval: true)]
+    private Collection $equipes;
+
     public function __construct()
     {
         $this->flights = new ArrayCollection();
         $this->cartesDeScores = new ArrayCollection();
+        $this->equipes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -167,6 +171,36 @@ class Competition
     public function setChampionnat(?Championnat $championnat): static
     {
         $this->championnat = $championnat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Equipe>
+     */
+    public function getEquipes(): Collection
+    {
+        return $this->equipes;
+    }
+
+    public function addEquipe(Equipe $equipe): static
+    {
+        if (!$this->equipes->contains($equipe)) {
+            $this->equipes->add($equipe);
+            $equipe->setCompetition($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipe(Equipe $equipe): static
+    {
+        if ($this->equipes->removeElement($equipe)) {
+            // set the owning side to null (unless already changed)
+            if ($equipe->getCompetition() === $this) {
+                $equipe->setCompetition(null);
+            }
+        }
 
         return $this;
     }
