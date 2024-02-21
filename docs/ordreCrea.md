@@ -18,18 +18,18 @@ ReglementChampionnat // lien 1-1 avec Championnat
 
 PointsClassementEquipe
 Joueur // rattaché à Championnat par association n-n
-
-## Liste de toutes les entités - supprimer lorsque toutes réparties
-
-CarteDeScores
 Cible
 CibleDeParcours
-ClassementClub
-ClassementJoueur
-Competition
-Equipe
-Flight
 Parcours
 ReglementCompetition
 Repere
+Competition
+
+## Liste des autres entités - non renseignées par Appfixtures
+
+CarteDeScores
+ClassementClub
+ClassementJoueur
+Equipe
+Flight
 Score

@@ -1,0 +1,18 @@
+<header class="container">
+    <hgroup>
+        <h1>Projet 7</h1>
+        <p>Streetgolfeur un jour, StreetGolf pour toujours ...</p>
+    </hgroup>
+    <nav>
+        <ul>
+            <li><strong>Projet 7</strong></li>
+        </ul>
+        <ul>
+            {% if is_granted("ROLE_USER") %}
+                <li><a class="contrast" href="{{ path('app_logout') }}">Déconnexion</a></li>
+            {% else %}
+                <li><a class="contrast" href="{{ path('app_login') }}">Connexion</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
