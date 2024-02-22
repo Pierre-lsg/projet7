@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paramétrages généraux{% endblock %}
+
+{% block body %}
+<div>
+    {% if is_granted("ROLE_RESP") %}  
+        <article class="component">
+            <p>Règles appliquées pour atteindre la cibles</p>
+            <a role="button" href="{{ path('app_fdj_index') }}">Formule de Jeu</a>
+        </article>
+
+        <article class="component">
+            <p>Règles spécifiques pour le calcul des points lors d'un championnat</p>
+            <a role="button" href="{{ path('app_accueil') }}">Mode de calcul</a>
+        </article>
+        
+        <article class="component">
+            <p>Formule de compétition : individuel, par équipe, ...</p>
+            <a role="button" href="{{ path('app_accueil') }}">Mode de compétition</a>
+        </article>
+        
+        <article class="component">
+            <p>Règles appliquées pour calculer une croix (non accession à la cible) lors d'une compétition</p>
+            <a role="button" href="{{ path('app_accueil') }}">Règle de la croix</a>
+        </article>
+        
+        <article class="component">
+            <p>Règle de répartition des points en cas d'égalité lors d'une compétition</p>
+            <a role="button" href="{{ path('app_accueil') }}">Règle de répartition des points</a>
+        </article>
+
+        {% if is_granted("ROLE_ADMIN") %}  
+        <article class="component">
+            <p>Creer/modifier/supprimer des comptes utilisateurs (admin only)</p>
+            <a role="button" href="{{ path('app_accueil') }}">Comptes utilisateurs</a>
+        </article>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

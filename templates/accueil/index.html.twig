@@ -5,9 +5,30 @@
 {% block body %}
 
 <div>
-    <h2>Liste des fonctionnalités accessibles :</h2>
-    <ul>
-        <li><a href="{{ path('app_club_index') }}">Gestion des clubs</a></li>
-    </ul>
+    <article class="component">
+        <p>Tu as participé à une compétition et tu veux connaître les résultats, clique en dessous</p>
+        <a role="button" href="{{ path('app_accueil') }}">Accès aux résultats</a>
+    </article>
+    {% if is_granted("ROLE_USER") %}  
+        <article class="component">
+            <p>Tu veux définir les détails d'une compétition ou d'un championnat</p>
+            <a role="button" href="{{ path('app_accueil') }}">Accès aux championnats</a>
+        </article>
+
+        <article class="component">
+            <p>Tu dois créer/modifier une association et ses adhérents ...</p>
+            <a role="button" href="{{ path('app_accueil') }}">Accès aux associations</a>
+        </article>
+
+        <article class="component">
+            <p>Tu veux découvrir les parcours existants, proposer de nouveaux parcours, ...</p>
+            <a role="button" href="{{ path('app_accueil') }}">Accès aux parcours</a>
+        </article>
+
+        <article class="component">
+            <p>Tu veux modifier les paramétrages généraux. (droits supérieurs nécessaires)</p>
+            <a role="button" href="{{ path('app_parametrage') }}">Paramétrages</a>
+        </article>
+    {% endif %}
 </div>
 {% endblock %}
