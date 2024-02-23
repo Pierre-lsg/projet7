@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Règle de calcul pour un championnat{% endblock %}
+
+{% block body %}
+    <h1>Règle de calcul pour un championnat</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mode_calcul_championnat.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ mode_calcul_championnat.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ mode_calcul_championnat.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_mcc_index') }}">Retour à la liste</a>
+
+    <a href="{{ path('app_mcc_edit', {'id': mode_calcul_championnat.id}) }}">edit</a>
+
+    {{ include('parametrage/mode_calcul_championnat/_delete_form.html.twig') }}
+{% endblock %}

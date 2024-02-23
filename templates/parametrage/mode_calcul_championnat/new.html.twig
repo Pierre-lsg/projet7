@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouveau mode de calcul{% endblock %}
+
+{% block body %}
+    <h1>Créer un nouveau mode de calcul</h1>
+
+    {{ include('parametrage/mode_calcul_championnat/_form.html.twig') }}
+
+    <a href="{{ path('app_mcc_index') }}">back to list</a>
+{% endblock %}

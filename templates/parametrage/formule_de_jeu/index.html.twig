@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}FormuleDeJeu index{% endblock %}
+{% block title %}Formule de jeu{% endblock %}
 
 {% block body %}
-    <h1>FormuleDeJeu index</h1>
+    <h1>Formule de jeu</h1>
 
     <table class="table">
         <thead>
@@ -19,18 +19,18 @@
                 <td>{{ formule_de_jeu.nom }}</td>
                 <td>{{ formule_de_jeu.description }}</td>
                 <td>
-                    <a role="button" href="{{ path('app_fdj_show', {'id': formule_de_jeu.id}) }}">show</a>
-                    <a role="button" href="{{ path('app_fdj_edit', {'id': formule_de_jeu.id}) }}">edit</a>
+                    <a role="button" class="sbtt" href="{{ path('app_fdj_show', {'id': formule_de_jeu.id}) }}">voir</a>
+                    <a role="button" class="sbtt" href="{{ path('app_fdj_edit', {'id': formule_de_jeu.id}) }}">modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Aucune formule de jeu trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_fdj_new') }}">Create new</a>
-    <a href="{{ path('app_parametrage') }}">Back to param index</a>
+    <a role="button" class="sbtt" href="{{ path('app_fdj_new') }}">Créer une nouvelle formule de jeu</a>
+    <a role="button" class="sbtt" href="{{ path('app_parametrage') }}">Retour au paramétrage</a>
 {% endblock %}

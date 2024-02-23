@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ championnat.nom }}{% endblock %}
+
+{% block body %}
+<main class='container'>
+    <article>
+        <header>Identification</header>
+        <table>
+            <tr>
+                <td>Id</td>
+                <td>{{ championnat.id }}</td>
+            </tr>
+            <tr>
+                <td>Nom</td>
+                <td>{{ championnat.nom }}</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>{{ championnat.description }}</td>
+            </tr>
+            <tr>
+                <td>Saison</td>
+                <td>{{ championnat.saison }}</td>
+            </tr>
+        </table>
+    </article>
+
+    <article>
+        <header>Compétitions</header>
+            {% for competition in championnat.competitions|sort((a,b) => a.reglement.dateCompetition <=> b.reglement.dateCompetition) %}
+                <article>
+                    <header>{{ competition.reglement.dateCompetition|date("d/m/Y") }} - {{ competition.nom }}</header>
+                    {{ competition.description }}
+                </article>
+            {% endfor %}
+    </article>
+
+    <article>
+        <header>Règlement</header>
+        <table>
+            <tr>
+                <td>Compétitions requises</td>
+                <td>{{ championnat.reglementChampionnat.nombreCompetitionRequis }}</td>
+            </tr>
+            <tr>
+                <td>Mode de calcul</td>
+                <td>{{ championnat.reglementChampionnat.modeCalculChampionnat.nom }}</td>
+            </tr>
+            <tr>
+                <td>Répartition des points</td>
+                <td>{{ championnat.reglementChampionnat.repartitionPoints.nom }}</td>
+            </tr>
+            <tr>
+                <td>Tableau des points</td>
+                <td><table><tr>
+                {% for pce in championnat.reglementChampionnat.listePointsClassementEquipe %}
+                    {% if loop.index <= 3 %}
+                        <td>#{{ pce.classement }}</td>                    
+                    {% endif %}                    
+                {% endfor %}
+                </tr><tr>
+                {% for pce in championnat.reglementChampionnat.listePointsClassementEquipe %}
+                    {% if loop.index <= 3 %}
+                        <td>{{ pce.points }}</td>                    
+                    {% endif %}                    
+                {% endfor %}
+                </tr></table></td>
+            </tr>
+        </table>
+    </article>
+
+    <article>
+        <header>Clubs engagés</header>
+        {% for club in championnat.clubsChampionnat %}
+        {% if loop.index == 4 %}<details><summary>Autres clubs ...</summary>{% endif %}
+            <article> 
+                <header>{{ club.nom }}</header>
+                {{ club.description }}
+            </article>                
+            {% if loop.index >= 4 and loop.last %}</details>{% endif %}
+        {% endfor %}
+    </article>
+
+    <article>
+        <header>Joueurs engagés</header>
+        {% for joueur in championnat.joueursChampionnat %}
+        {% if loop.index == 4 %}<details><summary>Autres joueurs ...</summary>{% endif %}
+            <article> 
+                <header>{{ joueur.prenom }} {{ joueur.nom }} 
+                {% if joueur.pseudo != "" %}
+                    ({{ joueur.pseudo }})
+                {% endif %}
+                </header>
+            </article>                
+            {% if loop.index >= 4 and loop.last %}</details>{% endif %}
+        {% endfor %}
+    </article>
+
+</main>
+
+{% endblock %}

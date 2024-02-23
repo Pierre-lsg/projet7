@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des modes de calcul{% endblock %}
+
+{% block body %}
+    <h1>Liste desw modes de calcul</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mode_calcul_championnat in mode_calcul_championnats %}
+            <tr>
+                <td>{{ mode_calcul_championnat.nom }}</td>
+                <td>{{ mode_calcul_championnat.description }}</td>
+                <td>
+                    <a href="{{ path('app_mcc_show', {'id': mode_calcul_championnat.id}) }}">show</a>
+                    <a href="{{ path('app_mcc_edit', {'id': mode_calcul_championnat.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">aucun mode de calcul trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_mcc_new') }}">Créer un nouveau mode de calcul</a>
+{% endblock %}

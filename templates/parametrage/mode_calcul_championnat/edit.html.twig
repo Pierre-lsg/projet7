@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un mode de calcul{% endblock %}
+
+{% block body %}
+    <h1>Modifier un mode de calcul</h1>
+
+    {{ include('parametrage/mode_calcul_championnat/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_mcc_index') }}">Retour à la liste des mode de calcul</a>
+
+    {{ include('parametrage/mode_calcul_championnat/_delete_form.html.twig') }}
+{% endblock %}

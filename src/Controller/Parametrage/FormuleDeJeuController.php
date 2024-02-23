@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Parametrage;
 
 use App\Entity\FormuleDeJeu;
 use App\Form\FormuleDeJeuType;

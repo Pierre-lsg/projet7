@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit FormuleDeJeu{% endblock %}
+{% block title %}Modifier une formule de jeu{% endblock %}
 
 {% block body %}
-    <h1>Edit FormuleDeJeu</h1>
+    <h1>Modifier une formule de jeu</h1>
 
-    {{ include('parametrage/formule_de_jeu/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('parametrage/formule_de_jeu/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('app_fdj_index') }}">back to list</a>
+    <a href="{{ path('app_fdj_index') }}">Retour à la liste des formules de jeu</a>
 
     {{ include('parametrage/formule_de_jeu/_delete_form.html.twig') }}
 {% endblock %}

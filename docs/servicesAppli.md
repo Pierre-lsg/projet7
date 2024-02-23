@@ -38,7 +38,7 @@ Parcours (parcours)
 
 
 Paramétrage 
-|_ 
+|_ ...
 
 
 

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ChampionnatController!{% endblock %}
+
+{% block body %}
+<main class='container'>
+    {% for championnat in championnats %}
+        <article>
+            <header>{{ championnat.nom }} - {{ championnat.saison }}</header>
+            
+            {{ championnat.description }}
+
+            <footer>
+                <a role="button" href="{{ path('app_championnat_show', {'id': championnat.id}) }}">Voir</a>
+                <a role="button" href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Modifier</a>
+                <select name="competition">
+                    {% for competition in championnat.competitions %}
+                        <option> {{ competition.nom }} </option>
+                    {% endfor %}
+                </select>
+            </footer>
+        </article>
+    {% endfor %}
+</main>
+
+{% endblock %}
