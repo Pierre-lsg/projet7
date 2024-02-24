@@ -1,0 +1,10 @@
+<select name="menu" onchange="location = this.value">
+    <option>☰</option>
+    {% if championnats is defined %}
+        {% for championnat in championnats %}
+            <option value="{{ path('app_championnat_show', {'id': championnat.id}) }}">{{ championnat.nom }}</option>
+        {% endfor %}
+    {% else %}
+        <option value="{{ path('app_championnat') }}">Retour</option>        
+    {% endif %}
+</select>

@@ -20,7 +20,17 @@
     <body>
         <!-- header -->
         {% include "_header.base.html.twig" %}
-        
+                    <li>{% block menu %}{% endblock %}</li>
+                    {% if is_granted("ROLE_USER") %}
+                        <li><a class="contrast" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                    {% else %}
+                        <li><a class="contrast" href="{{ path('app_login') }}">Connexion</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+
+        <!-- main -->
         <div class="container">
             {% block body %}{% endblock %}
         </div>

@@ -2,6 +2,10 @@
 
 {% block title %}{{ championnat.nom }}{% endblock %}
 
+{% block menu %}
+    {% include "championnat/_menu_championnat.html.twig" %}
+{% endblock %}
+
 {% block body %}
 <main class='container'>
     <article>
