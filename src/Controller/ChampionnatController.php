@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Championnat;
+use App\Form\ChampionnatType;
 use App\Repository\ChampionnatRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -34,11 +37,21 @@ class ChampionnatController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_championnat_edit')]
-    public function edit(): Response
+    #[Route('/{id}/edit', name: 'app_championnat_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Championnat $championnat, EntityManagerInterface $em): Response
     {
-        return $this->render('championnat/index.html.twig', [
-            'championnats' => $this->championnatRepository->findAll(),
+        $form = $this->createForm(ChampionnatType::class, $championnat);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('app_championnat_show', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('championnat/edit.html.twig', [
+            'championnat' => $championnat,
+            'form' => $form,
         ]);
     }
 }

@@ -9,7 +9,7 @@
 {% block body %}
 <main class='container'>
     <article>
-        <header>Identification</header>
+        <header>Identification - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Modifier</a>)</header>
         <table>
             <tr>
                 <td>Id</td>
@@ -34,14 +34,14 @@
         <header>Compétitions</header>
             {% for competition in championnat.competitions|sort((a,b) => a.reglement.dateCompetition <=> b.reglement.dateCompetition) %}
                 <article>
-                    <header>{{ competition.reglement.dateCompetition|date("d/m/Y") }} - {{ competition.nom }}</header>
+                    <header>{{ competition.reglement.dateCompetition|date("d/m/Y") }} - {{ competition.nom }} - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Modifier</a>)</header>
                     {{ competition.description }}
                 </article>
             {% endfor %}
     </article>
 
     <article>
-        <header>Règlement</header>
+        <header>Règlement - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Modifier</a>)</header>
         <table>
             <tr>
                 <td>Compétitions requises</td>
@@ -75,7 +75,7 @@
     </article>
 
     <article>
-        <header>Clubs engagés</header>
+        <header>Clubs engagés - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Modifier</a>)</header>
         {% for club in championnat.clubsChampionnat %}
         {% if loop.index == 4 %}<details><summary>Autres clubs ...</summary>{% endif %}
             <article> 
@@ -87,7 +87,7 @@
     </article>
 
     <article>
-        <header>Joueurs engagés</header>
+        <header>Joueurs engagés - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Modifier</a>)</header>
         {% for joueur in championnat.joueursChampionnat %}
         {% if loop.index == 4 %}<details><summary>Autres joueurs ...</summary>{% endif %}
             <article> 

@@ -2,6 +2,10 @@
 
 {% block title %}Paramétrages généraux{% endblock %}
 
+{% block menu %}
+    {% include "parametrage/_menu_parametrage.html.twig" %}
+{% endblock %}
+
 {% block body %}
 <div>
     {% if is_granted("ROLE_RESP") %}  

@@ -1,36 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Club index{% endblock %}
+{% block title %}Liste des associations{% endblock %}
 
 {% block body %}
-    <h1>Club index</h1>
+    <h1>Liste des associations</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for club in clubs %}
-            <tr>
-                <td>{{ club.nom }}</td>
-                <td>{{ club.description }}</td>
-                <td>
-                    <a href="{{ path('app_club_show', {'id': club.id}) }}">voir</a>
-                    <a href="{{ path('app_club_edit', {'id': club.id}) }}">éditer</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">aucun club trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% for club in clubs %}
+        <article>
+            <header>{{ club.nom }}</header>
+            {{ club.description }}
+            <footer>
+                <a href="{{ path('app_club_show', {'id': club.id}) }}">voir</a>
+                <a href="{{ path('app_club_edit', {'id': club.id}) }}">modifier</a>
+                <a href="{{ path('app_accueil', {'id': club.id}) }}">joueurs</a>
+                <a href="{{ path('app_accueil', {'id': club.id}) }}">championnats</a>
+            </footer>
+        </article>
+    {% endfor %}
 
     <a role="button" href="{{ path('app_club_new') }}">Créer</a>
 {% endblock %}
