@@ -7,29 +7,36 @@
 {% endblock %}
 
 {% block body %}
-<main class='container'>
-{#     <article>
-        <header>Identification</header>
-        <table>
-            <tr>
-                <td>Id</td>
-                <td>{{ championnat.id }}</td>
-            </tr>
-            <tr>
-                <td>Nom</td>
-                <td>{{ championnat.nom }}</td>
-            </tr>
-            <tr>
-                <td>Description</td>
-                <td>{{ championnat.description }}</td>
-            </tr>
-            <tr>
-                <td>Saison</td>
-                <td>{{ championnat.saison }}</td>
-            </tr>
-        </table>
-    </article>
- #}
-</main>
+{{ form_start(form) }}
+    <main class='container'>
+        <article>
+            <header>Identification</header>
+            <table>
+                <tr>
+                    <td>Id</td>
+                    <td>{{ championnat.id }}</td>
+                </tr>
+                <tr>
+                    <td>Nom</td>
+                    <td>{{ form_widget(form.nom) }}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{ form_widget(form.description) }}</td>
+                </tr>
+                <tr>
+                    <td>Saison</td>
+                    <td>{{ form_widget(form.saison) }}</td>
+                </tr>
+            </table>
+        </article>
+    </main>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}
+
+<a href="{{ path('app_accueil') }}">Modifier le règlement du championnat</a>
+<a href="{{ path('app_accueil') }}">Modifier la liste des compétitions prévues</a>
+<a href="{{ path('app_accueil') }}">Modifier la liste des clubs engagés</a>
+<a href="{{ path('app_accueil') }}">Modifier la liste des joueurs engagés</a>
 
 {% endblock %}

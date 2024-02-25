@@ -18,6 +18,7 @@ use App\Entity\ReglementChampionnat;
 use App\Entity\ReglementCompetition;
 use App\Entity\RepartitionPoints;
 use App\Entity\Repere;
+use App\Entity\User;
 use App\Repository\ChampionnatRepository;
 use App\Repository\ClubRepository;
 use App\Repository\FormuleDeJeuRepository;
@@ -30,6 +31,7 @@ use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -41,6 +43,7 @@ class AppFixtures extends Fixture
     private RegleCroixRepository $rcRepo;
     private ModeCompetitionRepository $mcRepo;
     private FormuleDeJeuRepository $fdjRepo;
+    private UserPasswordHasherInterface $userPasswordHasher;
 
     public function __construct(RepartitionPointsRepository $rpRepo,
                                 ModeCalculChampionnatRepository $mccrRepo,
@@ -49,7 +52,8 @@ class AppFixtures extends Fixture
                                 JoueurRepository $jRepo,
                                 RegleCroixRepository $rcRepo,
                                 ModeCompetitionRepository $mcRepo,
-                                FormuleDeJeuRepository $fdjRepo
+                                FormuleDeJeuRepository $fdjRepo,
+                                UserPasswordHasherInterface $userPasswordHasher
     )
     {
         $this->rpRepo = $rpRepo;
@@ -60,6 +64,7 @@ class AppFixtures extends Fixture
         $this->rcRepo = $rcRepo;
         $this->mcRepo = $mcRepo;
         $this->fdjRepo = $fdjRepo;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     public function load(ObjectManager $manager): void
@@ -70,6 +75,7 @@ class AppFixtures extends Fixture
         $this->loadRegleCroix($manager);
         $this->loadModeCalcul($manager);
         $this->loadRepartitionPoints($manager);
+        $this->loadUsers($manager);
         
         // Création des entités 
         $this->createClub($manager);
@@ -421,6 +427,22 @@ class AppFixtures extends Fixture
             ;
             $manager->persist($pointsClassementEquipe);
         }
+        $manager->flush();
+    }
+
+    // Création de l'utilisateur 'admin'
+    private function loadUsers(ObjectManager $manager): void
+    {
+        $user = new User();
+
+        $user
+            ->setUsername('admin')
+            ->setRoles(["ROLE_USER","ROLE_ORGA","ROLE_RESP","ROLE_ADMIN"])
+            ->setPassword($this->userPasswordHasher->hashPassword($user,'testtest'))
+        ; 
+        
+        $manager->persist($user);
+
         $manager->flush();
     }
 

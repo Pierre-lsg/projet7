@@ -38,7 +38,7 @@ class ChampionnatController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_championnat_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Championnat $championnat, EntityManagerInterface $em): Response
+    public function edit(int $id, Request $request, Championnat $championnat, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(ChampionnatType::class, $championnat);
         $form->handleRequest($request);
@@ -46,7 +46,7 @@ class ChampionnatController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            return $this->redirectToRoute('app_championnat_show', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_championnat_show', ['id' => $id], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('championnat/edit.html.twig', [
