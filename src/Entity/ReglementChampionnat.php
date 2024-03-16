@@ -6,6 +6,7 @@ use App\Repository\ReglementChampionnatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReglementChampionnatRepository::class)]
 class ReglementChampionnat
@@ -18,7 +19,8 @@ class ReglementChampionnat
     #[ORM\Column]
     private ?int $nombreCompetitionRequis = null;
 
-    #[ORM\OneToMany(mappedBy: 'reglementChampionnat', targetEntity: PointsClassementEquipe::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'reglementChampionnat', targetEntity: PointsClassementEquipe::class, orphanRemoval: true, cascade: ['persist'])]
+    #[Assert\Valid]
     private Collection $listePointsClassementEquipe;
 
     #[ORM\ManyToOne(inversedBy: 'reglementChampionnat')]

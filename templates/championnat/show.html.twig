@@ -31,7 +31,7 @@
     </article>
 
     <article>
-        <header>Compétitions</header>
+        <header>Compétitions (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Ajouter</a>)</header>
             {% for competition in championnat.competitions|sort((a,b) => a.reglement.dateCompetition <=> b.reglement.dateCompetition) %}
                 <article>
                     <header>{{ competition.reglement.dateCompetition|date("d/m/Y") }} - {{ competition.nom }} - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Modifier</a>)</header>
@@ -41,7 +41,7 @@
     </article>
 
     <article>
-        <header>Règlement - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Modifier</a>)</header>
+        <header>Règlement - (<a href="{{ path('app_reglement_edit', {'id': championnat.reglementChampionnat.id, 'idc': championnat.id}) }}">Modifier</a>)</header>
         <table>
             <tr>
                 <td>Compétitions requises</td>
@@ -75,11 +75,11 @@
     </article>
 
     <article>
-        <header>Clubs engagés - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Modifier</a>)</header>
+        <header>Clubs engagés - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Ajouter</a>)</header>
         {% for club in championnat.clubsChampionnat %}
         {% if loop.index == 4 %}<details><summary>Autres clubs ...</summary>{% endif %}
             <article> 
-                <header>{{ club.nom }}</header>
+                <header>{{ club.nom }} (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Supprimer</a>)</header>
                 {{ club.description }}
             </article>                
             {% if loop.index >= 4 and loop.last %}</details>{% endif %}
@@ -87,7 +87,7 @@
     </article>
 
     <article>
-        <header>Joueurs engagés - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Modifier</a>)</header>
+        <header>Joueurs engagés - (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Ajouter</a>)</header>
         {% for joueur in championnat.joueursChampionnat %}
         {% if loop.index == 4 %}<details><summary>Autres joueurs ...</summary>{% endif %}
             <article> 
@@ -95,6 +95,7 @@
                 {% if joueur.pseudo != "" %}
                     ({{ joueur.pseudo }})
                 {% endif %}
+                (<a href="{{ path('app_championnat_edit', {'id': championnat.id}) }}">Supprimer</a>)
                 </header>
             </article>                
             {% if loop.index >= 4 and loop.last %}</details>{% endif %}

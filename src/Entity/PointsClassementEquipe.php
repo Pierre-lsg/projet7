@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PointsClassementEquipeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: PointsClassementEquipeRepository::class)]
 class PointsClassementEquipe
@@ -14,9 +16,13 @@ class PointsClassementEquipe
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Positive]
     private ?int $classement = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Positive]
     private ?int $points = null;
 
     #[ORM\ManyToOne(inversedBy: 'listePointsClassementEquipe')]

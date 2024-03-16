@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ reglement.id }}{% endblock %}
+
+{% block menu %}
+    {% include "championnat/_menu_championnat.html.twig" %}
+{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+    <main class='container'>
+        <article>
+            <header>Identification</header>
+            <table>
+                <tr>
+                    <td>Id</td>
+                    <td>{{ reglement.id }}</td>
+                </tr>
+                <tr>
+                    <td>Nombre de competitions requise</td>
+                    <td>{{ form_widget(form.nombreCompetitionRequis)}}</td>
+                </tr>
+                <tr>
+                    <td><span data-tooltip="Méthode de calcul de la répartition des points">Répartition des points</span></td>
+                    <td>{{ form_widget(form.repartitionPoints)}}</td>
+                </tr>
+                <tr>
+                    <td>Mode de calcul du championnat</td>
+                    <td>{{ form_widget(form.modeCalculChampionnat)}}</td>
+                </tr>
+                <tr>
+                    <td>Liste des points du classement par équipe</td>
+                    <td>{{ form_widget(form.listePointsClassementEquipe)}}</td>
+                </tr>
+            </table>
+        </article>
+    </main>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}
+
+{% endblock %}
