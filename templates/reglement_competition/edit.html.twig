@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ reglement.id }}{% endblock %}
+
+{% block menu %}
+    {% include "competition/_menu_competition.html.twig" %}
+{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+    <main class='container'>
+        <article>
+            <header>Identification</header>
+            <table>
+                <tr>
+                    <td>Id</td>
+                    <td>{{ reglement.id }}</td>
+                </tr>
+                <tr>
+                    <td>Date de compétition</td>
+                    <td>{{ form_widget(form.dateCompetition)}}</td>
+                </tr>
+                <tr>
+                    <td>Date de Publication du résultat</td>
+                    <td>{{ form_widget(form.datePublicationResultat)}}</td>
+                </tr>
+                <tr>
+                    <td>Nombre de joueur par équipe</td>
+                    <td>{{ form_widget(form.nombreJoueurParEquipe) }}</td>
+                </tr>
+                <tr>
+                    <td>Nombre d'équipe par Flight</td>
+                    <td>{{ form_widget(form.nombreEquipeParFlight) }}</td>
+                </tr>
+                <tr>
+                    <td>Accueil</td>
+                    <td>{{ form_widget(form.accueil) }}</td>
+                </tr>
+                <tr>
+                    <td>Mode de la compétition</td>
+                    <td>{{ form_widget(form.modeCompetition) }}</td>
+                </tr>
+                <tr>
+                    <td>Réglement de la croix</td>
+                    <td>{{ form_widget(form.regleCroix) }}</td>
+                </tr>
+            </table>
+        </article>
+    </main>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}
+
+{% endblock %}

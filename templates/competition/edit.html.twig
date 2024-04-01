@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ competition.nom }}{% endblock %}
+
+{% block menu %}
+    {% include "competition/_menu_competition.html.twig" %}
+{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+    <main class='container'>
+        <article>
+            <header>Identification</header>
+            <table>
+                <tr>
+                    <td>Id</td>
+                    <td>{{ competition.id }}</td>
+                </tr>
+                <tr>
+                    <td>Nom</td>
+                    <td>{{ form_widget(form.nom) }}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{ form_widget(form.description) }}</td>
+                </tr>
+            </table>
+        </article>
+    </main>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}
+
+{% endblock %}

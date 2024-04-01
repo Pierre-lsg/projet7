@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ competition.nom }}{% endblock %}
+
+{% block menu %}
+    {% include "competition/_menu_competition.html.twig" %}
+{% endblock %}
+
+{% block body %}
+<main class='container'>
+    <article>
+        <header>Identification - (<a href="{{ path('app_competition_edit', {'id': competition.id}) }}">Modifier</a>)</header>
+        <table>
+            <tr>
+                <td>Id</td>
+                <td>{{ competition.id }}</td>
+            </tr>
+            <tr>
+                <td>Nom</td>
+                <td>{{ competition.nom }}</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>{{ competition.description }}</td>
+            </tr>
+        </table>
+    </article>
+
+    <article>
+        <header>Règlement de la compétition - (<a href="{{ path('app_reglement_competition_edit', {'id': competition.reglement.id, 'idc': competition.id}) }}">Modifier</a>)</header>
+        <table>
+            <tr>
+                <td>Date de compétition</td>
+                <td>{{ competition.reglement.dateCompetition | date("d/m/Y") }}</td>
+            </tr>
+            <tr>
+                <td>Date de publication du résultat</td>
+                <td>{{ competition.reglement.datePublicationResultat | date("d/m/Y") }}</td>
+            </tr>
+            <tr>
+                <td>Nombre de joueur par équipe</td>
+                <td>{{ competition.reglement.nombreJoueurParEquipe }}</td>
+            </tr>
+            <tr>
+                <td>Nombre d'équipe par Flight</td>
+                <td>{{ competition.reglement.nombreEquipeParFlight }}</td>
+            </tr>
+            <tr>
+                <td>Accueil</td>
+                <td>{{ competition.reglement.Accueil.nom }}</td>
+            </tr>
+            <tr>
+                <td>Mode de la compétition</td>
+                <td>{{ competition.reglement.modeCompetition.nom }}</td>
+            </tr>
+            <tr>
+                <td>Règlement de la croix</td>
+                <td>{{ competition.reglement.regleCroix.nom }}</td>
+            </tr>
+        </table>
+    </article>
+
+</main>
+
+{% endblock %}
