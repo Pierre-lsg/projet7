@@ -60,6 +60,15 @@
         </table>
     </article>
 
+    <article>
+        <header>Parcours - {{ competition.parcours.nom }} - (<a href="{{ path('app_parcours_edit', {'id': competition.parcours.id, 'idc': competition.id}) }}">Modifier</a>)</header>
+        <table>
+            <tr>
+                <td>{{ competition.parcours.description }}</td>
+            </tr>
+        </table>
+    </article>
+
 </main>
 
 {% endblock %}
