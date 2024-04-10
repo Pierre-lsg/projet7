@@ -34,7 +34,7 @@
         <header>Compétitions (<a href="{{ path('app_competition_edit', {'id': championnat.id}) }}">Ajouter</a>)</header>
             {% for competition in championnat.competitions|sort((a,b) => a.reglement.dateCompetition <=> b.reglement.dateCompetition) %}
                 <article>
-                    <header>{{ competition.reglement.dateCompetition|date("d/m/Y") }} - {{ competition.nom }} - (<a href="{{ path('app_competition_edit', {'id': competition.id}) }}">Modifier</a>)</header>
+                    <header>{{ competition.reglement.dateCompetition|date("d/m/Y") }} - {{ competition.nom }} - (<a href="{{ path('app_competition_show', {'id': competition.id}) }}">Consulter</a>)</header>
                     {{ competition.description }}
                 </article>
             {% endfor %}

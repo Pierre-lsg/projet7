@@ -38,6 +38,9 @@
             "migrations/.gitignore"
         ]
     },
+    "makinacorpus/db-tools-bundle": {
+        "version": "1.0.6"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
@@ -259,6 +262,9 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
+    },
+    "symfony/ux-toggle-password": {
+        "version": "v2.16.0"
     },
     "symfony/ux-turbo": {
         "version": "v2.13.2"

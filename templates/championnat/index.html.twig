@@ -15,8 +15,9 @@
             {{ championnat.description }}
 
             <footer>
-                <a role="button" href="{{ path('app_championnat_show', {'id': championnat.id}) }}">Voir</a>
+                <a role="button" href="{{ path('app_championnat_show', {'id': championnat.id}) }}">Visualiser</a>
                 <select name="competition">
+                    <option>...</option>
                     {% for competition in championnat.competitions %}
                         <option> {{ competition.nom }} </option>
                     {% endfor %}
