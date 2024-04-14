@@ -66,6 +66,36 @@
             <tr>
                 <td>{{ competition.parcours.description }}</td>
             </tr>
+            <tr>
+                <td>
+                    <table> 
+                        <tr>
+                            <td>#</td>
+                            {% for cible in competition.parcours.cibles %}
+                                {% if loop.index <= 6 %}
+                                    <td>{{ cible.ordre }}</td> 
+                                {% endif %}                    
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>par</td>
+                            {% for cible in competition.parcours.cibles %}
+                                {% if loop.index <= 6 %}
+                                    <td>{{ cible.par }}</td> 
+                                {% endif %}                    
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                        <td>règle</td>
+                            {% for cible in competition.parcours.cibles %}
+                                {% if loop.index <= 6 %}
+                                    <td>{{ cible.formuleDeJeu.nom }}</td> 
+                                {% endif %}                    
+                            {% endfor %}
+                        </tr>
+                    </table>  
+                </td>
+            </tr>
         </table>
     </article>
 

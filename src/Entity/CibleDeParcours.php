@@ -32,6 +32,9 @@ class CibleDeParcours
     #[ORM\OneToMany(mappedBy: 'cibleDeParcours', targetEntity: Score::class)]
     private Collection $scores;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $par = null;
+
     public function __construct()
     {
         $this->parcours = new ArrayCollection();
@@ -132,6 +135,18 @@ class CibleDeParcours
                 $score->setCibleDeParcours(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPar(): ?int
+    {
+        return $this->par;
+    }
+
+    public function setPar(?int $par): static
+    {
+        $this->par = $par;
 
         return $this;
     }

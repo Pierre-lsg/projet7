@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Championnat;
+use App\Entity\ReglementChampionnat;
 use App\Form\ChampionnatType;
+use App\Form\ReglementChampionnatType;
 use App\Repository\ChampionnatRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,4 +56,27 @@ class ChampionnatController extends AbstractController
             'form' => $form,
         ]);
     }
+
+        
+    #[Route('/{id}/reglement/edit', name: 'app_championnat_reglement_edit', methods: ['GET', 'POST'])]
+    public function edit_reglement(int $id, Request $request, Championnat $championnat, EntityManagerInterface $em): Response
+    {
+        $reglement = new ReglementChampionnat;
+        $reglement = $championnat->getReglementChampionnat();
+
+        $form = $this->createForm(ReglementChampionnatType::class, $reglement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('app_championnat_show', ['id' => $id], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('reglement_championnat/edit.html.twig', [
+            'reglement' => $reglement,
+            'form' => $form,
+        ]);
+    }
+
 }

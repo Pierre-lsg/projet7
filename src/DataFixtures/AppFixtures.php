@@ -206,7 +206,7 @@ class AppFixtures extends Fixture
             $depart = new Repere();
             $depart
                 ->setNom('D'.$i+1)
-                ->setDescription('...')
+                ->setDescription($faker->word())
                 ->setLatitude(strval(floatval(substr($accueil->getLatitude(), 0, 5)) + (random_int(-1000, 1000)/100000)))
                 ->setLongitude(strval(floatval(substr($accueil->getLongitude(), 0, 4)) + (random_int(-1000, 1000)/100000)))
             ;
@@ -230,7 +230,8 @@ class AppFixtures extends Fixture
             // Et des cibles de parcours
             $cibleParcours = new CibleDeParcours();
             $cibleParcours
-                ->setOrdre($i)
+                ->setOrdre($i + 1)
+                ->setPar(4)
                 ->setCible($cible)
                 ->setFormuleDeJeu($fdj[random_int(0,3)])
                 ->addParcours($parcours)

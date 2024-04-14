@@ -22,7 +22,7 @@ class ParcoursController extends AbstractController
     }
 
     #[Route('/{id}/competition/{idc}/edit', name: 'app_parcours_edit')]
-    public function edit(int $id, int $idc, Request $request, PArcours $parcours, EntityManagerInterface $em): Response
+    public function edit(int $id, int $idc, Request $request, Parcours $parcours, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(ParcoursType::class, $parcours);
         $form->handleRequest($request);
