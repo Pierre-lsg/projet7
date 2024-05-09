@@ -78,5 +78,47 @@ class ChampionnatController extends AbstractController
             'form' => $form,
         ]);
     }
+        
+    #[Route('/{id}/club/add', name: 'app_championnat_club_add', methods: ['GET', 'POST'])]
+    public function add_club(int $id, Request $request, Championnat $championnat, EntityManagerInterface $em): Response
+    {
+        $reglement = new ReglementChampionnat;
+        $reglement = $championnat->getReglementChampionnat();
+
+        $form = $this->createForm(ReglementChampionnatType::class, $reglement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('app_championnat_show', ['id' => $id], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('reglement_championnat/edit.html.twig', [
+            'reglement' => $reglement,
+            'form' => $form,
+        ]);
+    }
+        
+    #[Route('/{id}/club/{idc}/remove', name: 'app_championnat_club_remove', methods: ['GET'])]
+    public function remove_club(int $id, Request $request, Championnat $championnat, EntityManagerInterface $em): Response
+    {
+        $reglement = new ReglementChampionnat;
+        $reglement = $championnat->getReglementChampionnat();
+
+        $form = $this->createForm(ReglementChampionnatType::class, $reglement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('app_championnat_show', ['id' => $id], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('reglement_championnat/edit.html.twig', [
+            'reglement' => $reglement,
+            'form' => $form,
+        ]);
+    }
 
 }
